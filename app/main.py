@@ -22,6 +22,7 @@ app = FastAPI(
 origins = [
     "http://localhost:3000",  # Next.js
     "http://127.0.0.1:3000",
+    "https://YOUR-VERCEL-APP.vercel.app",
 ]
 
 app.add_middleware(
