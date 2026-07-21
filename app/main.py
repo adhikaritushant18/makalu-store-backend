@@ -1,0 +1,46 @@
+from fastapi import FastAPI
+
+from app.database import Base, engine
+from app.models import *
+from fastapi.middleware.cors import CORSMiddleware
+
+from app.router import (
+    assignment_router,
+    category_router,
+    dashboard_router,
+    equipment_router,
+    location_router,
+)
+
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(
+    title="Makalu Store Management API",
+    version="0.1.0",
+)
+
+origins = [
+    "http://localhost:3000",  # Next.js
+    "http://127.0.0.1:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/")
+def root():
+    return {
+        "message": "Makalu Store Management API"
+    }
+
+
+app.include_router(category_router)
+app.include_router(location_router)
+app.include_router(equipment_router)
+app.include_router(assignment_router)
+app.include_router(dashboard_router)

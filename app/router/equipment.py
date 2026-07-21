@@ -1,0 +1,54 @@
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+
+from app.database import get_db
+from app.schemas.equipment import (
+    EquipmentCreate,
+    EquipmentUpdate,
+    EquipmentResponse,
+)
+from app.services.equipment_service import equipment_service
+
+router = APIRouter(
+    prefix="/equipment",
+    tags=["Equipment"],
+)
+
+
+@router.get("/", response_model=list[EquipmentResponse])
+def get_equipment(db: Session = Depends(get_db)):
+    return equipment_service.get_all_equipment(db)
+
+
+@router.post("/", response_model=EquipmentResponse)
+def create_equipment(
+    data: EquipmentCreate,
+    db: Session = Depends(get_db),
+):
+    return equipment_service.create_equipment(db, data)
+
+
+@router.put("/{equipment_id}", response_model=EquipmentResponse)
+def update_equipment(
+    equipment_id: int,
+    data: EquipmentUpdate,
+    db: Session = Depends(get_db),
+):
+    return equipment_service.update_equipment(
+        db,
+        equipment_id,
+        data,
+    )
+
+
+@router.delete("/{equipment_id}")
+def delete_equipment(
+    equipment_id: int,
+    db: Session = Depends(get_db),
+):
+    equipment_service.delete_equipment(
+        db,
+        equipment_id,
+    )
+
+    return {"message": "Equipment deleted"}
