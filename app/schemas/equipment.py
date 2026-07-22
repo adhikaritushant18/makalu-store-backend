@@ -2,7 +2,6 @@ from pydantic import BaseModel, ConfigDict
 
 
 class EquipmentBase(BaseModel):
-    equipment_code: str
     name: str
     category_id: int
     status: str = "AVAILABLE"

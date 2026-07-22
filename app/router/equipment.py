@@ -16,8 +16,13 @@ router = APIRouter(
 
 
 @router.get("/", response_model=list[EquipmentResponse])
-def get_equipment(db: Session = Depends(get_db)):
-    return equipment_service.get_all_equipment(db)
+def get_equipment(search: str | None = None,
+    category_id: int | None = None,
+    status: str | None = None,
+    db: Session = Depends(get_db)):
+    return equipment_service.get_all_equipment(db, search=search,
+        category_id=category_id,
+        status=status)
 
 
 @router.post("/", response_model=EquipmentResponse)
