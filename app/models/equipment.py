@@ -46,7 +46,9 @@ class Equipment(Base):
 
     assignments = relationship(
         "Assignment",
-        back_populates="equipment"
+        back_populates="equipment",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
     )
     
     location = relationship(
