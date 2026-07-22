@@ -56,4 +56,5 @@ def delete_equipment(
         equipment_id,
     )
 
+
     return {"message": "Equipment deleted"}

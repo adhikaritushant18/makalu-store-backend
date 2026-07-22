@@ -1,6 +1,13 @@
 from pydantic import BaseModel, ConfigDict
 
 
+class CategoryResponse(BaseModel):
+    id: int
+    name: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+
 class EquipmentBase(BaseModel):
     name: str
     category_id: int
@@ -21,5 +28,8 @@ class EquipmentUpdate(BaseModel):
 
 class EquipmentResponse(EquipmentBase):
     id: int
+    equipment_code: str
+
+    category: CategoryResponse
 
     model_config = ConfigDict(from_attributes=True)
