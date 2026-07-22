@@ -7,10 +7,16 @@ class CategoryResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+class LocationResponse(BaseModel):
+    id: int
+    name: str
+
+    model_config = ConfigDict(from_attributes=True)
 
 class EquipmentBase(BaseModel):
     name: str
     category_id: int
+    location_id: int
     status: str = "AVAILABLE"
     remarks: str | None = None
 
@@ -31,5 +37,6 @@ class EquipmentResponse(EquipmentBase):
     equipment_code: str
 
     category: CategoryResponse
+    location: LocationResponse
 
     model_config = ConfigDict(from_attributes=True)

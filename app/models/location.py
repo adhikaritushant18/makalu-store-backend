@@ -1,5 +1,5 @@
 from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
@@ -14,6 +14,11 @@ class Location(Base):
         unique=True,
         nullable=False
     )
+    
+    equipments = relationship(
+    "Equipment",
+    back_populates="location"
+)
 
     def __repr__(self):
         return f"<Location {self.name}>"

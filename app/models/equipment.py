@@ -23,6 +23,11 @@ class Equipment(Base):
     category_id: Mapped[int] = mapped_column(
         ForeignKey("categories.id")
     )
+    
+    location_id: Mapped[int] = mapped_column(
+    ForeignKey("locations.id"),
+    nullable=False
+)
 
     status: Mapped[str] = mapped_column(
         String(30),
@@ -43,6 +48,11 @@ class Equipment(Base):
         "Assignment",
         back_populates="equipment"
     )
+    
+    location = relationship(
+    "Location",
+    back_populates="equipments"
+)
 
     def __repr__(self):
         return f"<Equipment {self.equipment_code}>"
