@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from app.models.equipment import Equipment
 from app.crud.equipment import equipment
 from app.schemas.equipment import EquipmentCreate, EquipmentUpdate
@@ -74,10 +74,20 @@ class EquipmentService:
         equipment_id: int,
     ):
 
-        return equipment.delete(
-            db=db,
-            id=equipment_id
+        db_obj = (
+            db.query(Equipment)
+            .options(joinedload(Equipment.assignments))
+            .filter(Equipment.id == equipment_id)
+            .first()
         )
+
+        if not db_obj:
+            raise ValueError("Equipment not found.")
+
+        db.delete(db_obj)
+        db.commit()
+
+        return db_obj
 
 
 equipment_service = EquipmentService()
