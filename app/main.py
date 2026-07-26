@@ -1,4 +1,8 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI
+from app.auth.router import router as auth_router
 
 from app.database import Base, engine
 from app.models import *
@@ -45,3 +49,4 @@ app.include_router(location_router)
 app.include_router(equipment_router)
 app.include_router(assignment_router)
 app.include_router(dashboard_router)
+app.include_router(auth_router)

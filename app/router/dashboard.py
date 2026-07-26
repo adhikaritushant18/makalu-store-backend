@@ -3,10 +3,12 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.services.dashboard_service import dashboard_service
+from app.auth.dependency import get_current_admin
 
 router = APIRouter(
     prefix="/dashboard",
     tags=["Dashboard"],
+    dependencies=[Depends(get_current_admin)],
 )
 
 

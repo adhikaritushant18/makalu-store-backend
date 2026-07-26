@@ -11,10 +11,12 @@ from app.schemas.assignment import (
 )
 
 from app.services.assignment_service import assignment_service
+from app.auth.dependency import get_current_admin
 
 router = APIRouter(
     prefix="/assignments",
     tags=["Assignments"],
+    dependencies=[Depends(get_current_admin)],
 )
 
 
