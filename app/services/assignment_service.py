@@ -28,6 +28,7 @@ class AssignmentService:
                 joinedload(Assignment.equipment),
                 joinedload(Assignment.location),
             )
+            .filter(Assignment.status == "ASSIGNED")
             .all()
         )
 
