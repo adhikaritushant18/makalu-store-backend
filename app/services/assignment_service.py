@@ -59,7 +59,8 @@ class AssignmentService:
             db=db,
             obj_in=data,
         )
-
+        
+        assignment_obj.status = "ASSIGNED"
         equipment_obj.status = "OUT"
 
         db.commit()

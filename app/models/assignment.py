@@ -42,7 +42,7 @@ class Assignment(Base):
 
     status: Mapped[str] = mapped_column(
         String(20),
-        default="OUT"
+        default="ASSIGNED"
     )
 
     remarks: Mapped[str | None] = mapped_column(
