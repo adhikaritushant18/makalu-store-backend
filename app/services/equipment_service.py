@@ -48,7 +48,7 @@ class EquipmentService:
         db.commit()
         db.refresh(equipment_obj)
 
-        return equipment_obj
+        return equipment.get(db, equipment_obj.id)
 
     def update_equipment(
         self,
@@ -62,11 +62,13 @@ class EquipmentService:
         if not db_obj:
             raise ValueError("Equipment not found.")
 
-        return equipment.update(
+        updated_obj = equipment.update(
             db=db,
             db_obj=db_obj,
             obj_in=data
         )
+
+        return equipment.get(db, updated_obj.id)
 
     def delete_equipment(
         self,

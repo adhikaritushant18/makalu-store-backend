@@ -28,6 +28,7 @@ class EquipmentCreate(EquipmentBase):
 class EquipmentUpdate(BaseModel):
     name: str | None = None
     category_id: int | None = None
+    location_id: int | None = None
     status: str | None = None
     remarks: str | None = None
 

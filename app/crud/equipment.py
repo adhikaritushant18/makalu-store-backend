@@ -17,6 +17,17 @@ class CRUDEquipment(
     ]
 ):
 
+    def get(self, db: Session, id: int):
+        return (
+            db.query(Equipment)
+            .options(
+                joinedload(Equipment.category),
+                joinedload(Equipment.location)
+            )
+            .filter(Equipment.id == id)
+            .first()
+        )
+
     def get_filtered(
         self,
         db: Session,
@@ -28,7 +39,8 @@ class CRUDEquipment(
         query = (
             db.query(Equipment)
             .options(
-                joinedload(Equipment.category)
+                joinedload(Equipment.category),
+                joinedload(Equipment.location)
             )
         )
 
