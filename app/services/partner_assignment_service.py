@@ -115,6 +115,12 @@ class PartnerAssignmentService:
 
         db.refresh(db_assignment)
 
+        try:
+            from app.utils.email_service import send_assignment_email
+            send_assignment_email(partner, db_assignment)
+        except Exception as e:
+            print(f"Assignment email sending failed: {e}")
+
         return db_assignment
 
     def get_all(

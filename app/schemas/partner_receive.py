@@ -24,6 +24,7 @@ class ReceiveShipmentItemResponse(ReceiveShipmentItemBase):
 class ReceiveShipmentBase(BaseModel):
     partner_id: int
     shipment_no: Optional[str] = None
+    receive_type: str = "SHIPMENT"
     received_date: date
     received_by: str
     origin: Optional[str] = None
@@ -36,9 +37,12 @@ class ReceiveShipmentCreate(ReceiveShipmentBase):
     items: List[ReceiveShipmentItemCreate]
 
 
+from app.schemas.partner import PartnerResponse
+
 class ReceiveShipmentResponse(ReceiveShipmentBase):
     id: int
     receive_no: str
     items: List[ReceiveShipmentItemResponse]
+    partner: Optional[PartnerResponse] = None
 
     model_config = ConfigDict(from_attributes=True)

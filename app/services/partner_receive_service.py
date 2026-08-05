@@ -55,10 +55,23 @@ class PartnerReceiveService:
                 status_code=404,
                 detail="Partner not found."
             )
+        if shipment.receive_type == "SHIPMENT":
+
+            if not shipment.shipment_no:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Shipment Number is required."
+                )
+        elif shipment.receive_type == "LOCAL":
+
+            shipment.shipment_no = None
+            shipment.carrier = None
+            shipment.tracking_no = None        
 
         db_shipment = ReceiveShipment(
             partner_id=shipment.partner_id,
             receive_no=self.generate_receive_no(db),
+            receive_type=shipment.receive_type,
             shipment_no=shipment.shipment_no,
             received_date=shipment.received_date,
             received_by=shipment.received_by,

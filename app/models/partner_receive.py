@@ -17,6 +17,11 @@ class ReceiveShipment(Base):
     )
 
     receive_no = Column(String(50), unique=True, nullable=False)
+    receive_type = Column(
+    String(20),
+    nullable=False,
+    default="SHIPMENT"
+)
     shipment_no = Column(String(100))
 
     received_date = Column(Date, nullable=False)

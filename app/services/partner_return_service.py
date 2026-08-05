@@ -101,6 +101,13 @@ class PartnerReturnService:
 
         db.refresh(db_return)
 
+        try:
+            from app.utils.email_service import send_return_email
+            if assignment and assignment.partner:
+                send_return_email(assignment.partner, db_return)
+        except Exception as e:
+            print(f"Return email sending failed: {e}")
+
         return db_return
 
     def get_all(self, db: Session):
