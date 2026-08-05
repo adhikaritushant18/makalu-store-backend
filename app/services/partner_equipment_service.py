@@ -41,6 +41,13 @@ class PartnerEquipmentService:
         db: Session,
         equipment: PartnerEquipmentCreate,
     ):
+        from app.models.partner import Partner
+        partner = db.query(Partner).filter(Partner.id == equipment.partner_id).first()
+        if not partner:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Partner with ID {equipment.partner_id} does not exist. Please create the partner first."
+            )
         return create_partner_equipment(
             db,
             equipment,
