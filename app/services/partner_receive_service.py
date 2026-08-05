@@ -106,16 +106,18 @@ class PartnerReceiveService:
         # return db_shipment
         
         db.commit()
-        db.refresh(shipment)
+        db.refresh(db_shipment)
 
-        partner = shipment.partner
+        # Option 1 (recommended): use the partner you already queried
+        try:
+            send_receive_email(
+                partner,
+                db_shipment
+            )
+        except Exception as e:
+            print(f"Email sending failed: {e}")
 
-        send_receive_email(
-            partner.email,
-            shipment
-        )
-
-        return shipment
+        return db_shipment
 
     def get_all(self, db: Session):
         return (
