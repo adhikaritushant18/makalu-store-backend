@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from Backend.app.utils.email_service import send_receive_email
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
@@ -99,10 +100,22 @@ class PartnerReceiveService:
                 item.quantity,
             )
 
-        db.commit()
-        db.refresh(db_shipment)
+        # db.commit()
+        # db.refresh(db_shipment)
 
-        return db_shipment
+        # return db_shipment
+        
+        db.commit()
+        db.refresh(shipment)
+
+        partner = shipment.partner
+
+        send_receive_email(
+            partner.email,
+            shipment
+        )
+
+        return shipment
 
     def get_all(self, db: Session):
         return (
