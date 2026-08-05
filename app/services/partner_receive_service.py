@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from Backend.app.utils.email_service import send_receive_email
+from app.utils.email_service import send_receive_email
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
