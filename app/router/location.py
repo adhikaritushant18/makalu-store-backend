@@ -11,7 +11,7 @@ from app.services.location_service import location_service
 from app.auth.dependency import get_current_admin
 
 router = APIRouter(
-    prefix="/api/locations",
+    prefix="/locations",
     tags=["Locations"],
     dependencies=[Depends(get_current_admin)],
 )

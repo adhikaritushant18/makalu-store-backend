@@ -1,16 +1,17 @@
-from dotenv import load_dotenv
-load_dotenv()
+import os
 
+from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from app.auth.router import router as auth_router
+from app.database import Base, engine
+from app.models import *
 from app.router.partner import router as partner_router
 from app.router.partner_equipment import router as partner_equipment_router
 from app.router.partner_assignment import router as partner_assignment_router
 from app.router.partner_return import router as partner_return_router
 from app.router.partner_receive import router as partner_receive_router
-from app.database import Base, engine
-from app.models import *
-from fastapi.middleware.cors import CORSMiddleware
 
 from app.router import (
     assignment_router,
@@ -20,18 +21,29 @@ from app.router import (
     location_router,
 )
 
+load_dotenv()
+
 Base.metadata.create_all(bind=engine)
+
+root_path = os.getenv("ROOT_PATH", "")
+
+default_origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://makalu-store-frontend.vercel.app",
+]
+cors_origins = os.getenv("CORS_ORIGINS")
+origins = (
+    [origin.strip() for origin in cors_origins.split(",") if origin.strip()]
+    if cors_origins
+    else default_origins
+)
 
 app = FastAPI(
     title="Makalu Store Management API",
     version="0.1.0",
+    root_path=root_path,
 )
-
-origins = [
-    "http://localhost:3000",  # Next.js
-    "http://127.0.0.1:3000",
-    "https://makalu-store-frontend.vercel.app",
-]
 
 app.add_middleware(
     CORSMiddleware,

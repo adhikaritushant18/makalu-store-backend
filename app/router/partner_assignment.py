@@ -13,7 +13,7 @@ from app.services.partner_assignment_service import (
 )
 
 router = APIRouter(
-    prefix="/api/partner-assignment",
+    prefix="/partner-assignment",
     tags=["Partner Assignment"],
 )
 
