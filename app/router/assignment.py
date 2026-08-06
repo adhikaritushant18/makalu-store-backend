@@ -14,7 +14,7 @@ from app.services.assignment_service import assignment_service
 from app.auth.dependency import get_current_admin
 
 router = APIRouter(
-    prefix="/assignments",
+    prefix="/api/assignments",
     tags=["Assignments"],
     dependencies=[Depends(get_current_admin)],
 )

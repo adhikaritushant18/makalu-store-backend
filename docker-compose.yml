@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  fastapi-app:
+    image: shrisant/store-backend:latest
+    container_name: makalu-store-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    restart: unless-stopped

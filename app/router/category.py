@@ -11,7 +11,7 @@ from app.services.category_service import category_service
 from app.auth.dependency import get_current_admin
 
 router = APIRouter(
-    prefix="/categories",
+    prefix="/api/categories",
     tags=["Categories"],
     dependencies=[Depends(get_current_admin)],
 )

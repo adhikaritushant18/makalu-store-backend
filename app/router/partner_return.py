@@ -13,7 +13,7 @@ from app.services.partner_return_service import (
 )
 
 router = APIRouter(
-    prefix="/partner-return",
+    prefix="/api/partner-return",
     tags=["Partner Return"],
 )
 

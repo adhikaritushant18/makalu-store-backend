@@ -13,7 +13,7 @@ from app.services.partner_receive_service import (
 )
 
 router = APIRouter(
-    prefix="/partner-receive",
+    prefix="/api/partner-receive",
     tags=["Partner Receive"],
 )
 

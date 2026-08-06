@@ -14,7 +14,7 @@ from app.services.partner_equipment_service import (
 )
 
 router = APIRouter(
-    prefix="/partner-equipment",
+    prefix="/api/partner-equipment",
     tags=["Partner Equipment"],
 )
 

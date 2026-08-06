@@ -1,0 +1,49 @@
+name: backend CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Build and Push backend
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/store-backend:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/store-backend:latest
+
+      - name: Copy backend docker-compose.yml to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: "docker-compose.yml"
+          target: "/home/ubuntu/makalustore.com/backend"
+          strip_components: 1
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            mkdir -p /home/ubuntu/makalustore.com/backend
+            cd /home/ubuntu/makalustore.com/backend
+
+            docker compose pull
+            docker compose -p makalustore-backend up -d
+            docker image prune -f

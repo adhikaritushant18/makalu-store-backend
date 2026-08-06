@@ -11,7 +11,7 @@ from app.services.equipment_service import equipment_service
 from app.auth.dependency import get_current_admin
 
 router = APIRouter(
-    prefix="/equipment",
+    prefix="/api/equipment",
     tags=["Equipment"],
     dependencies=[Depends(get_current_admin)],
 )
