@@ -4,6 +4,15 @@ from typing import Optional, List
 from pydantic import BaseModel, ConfigDict
 
 
+class ReceiveShipmentItemEquipmentResponse(BaseModel):
+    id: int
+    name: str
+    category: Optional[str] = None
+    unit: str = "pcs"
+
+    model_config = ConfigDict(from_attributes=True)
+
+
 class ReceiveShipmentItemBase(BaseModel):
     partner_equipment_id: int
     quantity: int
@@ -17,6 +26,7 @@ class ReceiveShipmentItemCreate(ReceiveShipmentItemBase):
 
 class ReceiveShipmentItemResponse(ReceiveShipmentItemBase):
     id: int
+    equipment: Optional[ReceiveShipmentItemEquipmentResponse] = None
 
     model_config = ConfigDict(from_attributes=True)
 
