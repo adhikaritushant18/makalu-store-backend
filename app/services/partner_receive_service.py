@@ -2,7 +2,7 @@ from datetime import datetime
 
 from app.utils.email_service import send_receive_email
 from fastapi import HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.models.partner import Partner
 from app.models.partner_receive import (
@@ -21,6 +21,12 @@ from app.crud.partner_equipment import (
 
 
 class PartnerReceiveService:
+
+    def _detail_query(self, db: Session):
+        return db.query(ReceiveShipment).options(
+            selectinload(ReceiveShipment.partner),
+            selectinload(ReceiveShipment.items).selectinload(ReceiveShipmentItem.equipment),
+        )
 
     def generate_receive_no(self, db: Session):
 
@@ -134,7 +140,7 @@ class PartnerReceiveService:
 
     def get_all(self, db: Session):
         return (
-            db.query(ReceiveShipment)
+            self._detail_query(db)
             .order_by(
                 ReceiveShipment.received_date.desc()
             )
@@ -144,7 +150,7 @@ class PartnerReceiveService:
     def get(self, db: Session, shipment_id: int):
 
         shipment = (
-            db.query(ReceiveShipment)
+            self._detail_query(db)
             .filter(
                 ReceiveShipment.id == shipment_id
             )
